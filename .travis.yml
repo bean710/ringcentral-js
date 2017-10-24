@@ -1,9 +1,7 @@
 language: node_js
 node_js:
 - 6
-- 5
-- 4
-- stable
+- 8
 cache:
   directories:
   - $HOME/.npm
@@ -16,7 +14,7 @@ deploy:
   api_key: $NPM_TOKEN
   skip_cleanup: true
   on:
-    node: 6
+    node: 8
     tags: true
     repo: ringcentral/ringcentral-js
 - provider: releases
@@ -28,7 +26,7 @@ deploy:
   - build/ringcentral.min.js
   - build/ringcentral.min.js.map
   on:
-    node: 6
+    node: 8
     tags: true
     repo: ringcentral/ringcentral-js
 before_install:

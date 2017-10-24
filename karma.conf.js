@@ -1,7 +1,6 @@
 var path = require('path');
 
 var specs = [
-    './src/test/test.js',
     './src/**/*-spec.js'
 ];
 
@@ -22,10 +21,10 @@ module.exports = function(config) {
             require.resolve('es6-promise/dist/es6-promise.auto.js'),
             require.resolve('whatwg-fetch/fetch'), //FIXME We need to add it manually for fetch-mock
             require.resolve('fetch-mock/es5/client-browserified'),
-            require.resolve('pubnub/dist/web/pubnub.js')
-        ].concat([
-            './build/ringcentral.js'
-        ]).concat(specs),
+            require.resolve('pubnub/dist/web/pubnub.js'),
+            './build/ringcentral.js',
+            './src/test/test.js',
+        ].concat(specs),
 
         reporters: [
             //'html',

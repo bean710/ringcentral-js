@@ -1,35 +1,4 @@
-(function(root, factory) {
-
-    function makeGlobal(exports, root) {
-
-        Object.keys(exports).forEach(function(key) {
-            root[key] = exports[key];
-        });
-
-        return exports;
-
-    }
-
-    if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
-
-        require("es6-promise").polyfill(); //FIXME Needed for Fetch Mock
-
-        var chai = require("chai");
-        var sinon = require("sinon");
-        var SDK = require("../SDK");
-        var fetchMock = require("fetch-mock");
-
-        require('sinon-chai');
-
-        makeGlobal(factory(SDK, chai, sinon, fetchMock), global);
-
-    } else {
-
-        makeGlobal(factory(root.RingCentral.SDK, root.chai, root.sinon, root.fetchMock), root);
-
-    }
-
-}(this, function(SDK, chai, sinon, fetchMock) {
+(function(root) {
 
     var expect = chai.expect;
     var spy = sinon.spy;
@@ -42,7 +11,6 @@
         var isJson = typeof json !== 'string';
 
         if (isJson && !headers) headers = {'Content-Type': 'application/json'};
-
 
         fetchMock.mock('http://whatever' + path, {
             body: isJson ? JSON.stringify(json) : json,
@@ -203,7 +171,7 @@
             opts[k] = options[k];
         });
 
-        return new SDK(opts);
+        return new RingCentral.SDK(opts);
 
     }
 
@@ -251,19 +219,19 @@
 
     }
 
-    return {
-        SDK: SDK,
-        expect: expect,
-        spy: spy,
-        asyncTest: asyncTest,
-        apiCall: apiCall,
-        presenceLoad: presenceLoad,
-        tokenRefresh: tokenRefresh,
-        logout: logout,
-        subscribeOnPresence: subscribeOnPresence,
-        subscribeGeneric: subscribeGeneric,
-        authentication: authentication
-    };
+    root.expect = expect;
+    root.spy = spy;
+    root.SDK = RingCentral.SDK;
+    root.asyncTest = asyncTest;
+    root.apiCall = apiCall;
+    root.presenceLoad = presenceLoad;
+    root.tokenRefresh = tokenRefresh;
+    root.logout = logout;
+    root.subscribeOnPresence = subscribeOnPresence;
+    root.subscribeGeneric = subscribeGeneric;
+    root.authentication = authentication;
 
-}));
+    console.log('Test env was set up');
+
+})(typeof window !== 'undefined' ? window : global);
 

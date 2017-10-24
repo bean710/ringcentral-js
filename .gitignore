@@ -7,4 +7,5 @@ build/coverage
 build/karma
 build/tests
 npm-debug.*
+package-lock.json
 node_modules

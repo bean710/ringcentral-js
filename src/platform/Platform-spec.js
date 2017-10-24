@@ -147,7 +147,7 @@ describe('RingCentral.platform.Platform', function() {
                 .on(platform.events.refreshSuccess, refreshSpy)
                 .get(path)
                 .then(function(ajax) {
-                    expect(refreshSpy).to.be.calledOnce;
+                    expect(refreshSpy.calledOnce).to.be.true;
                     expect(platform.auth().accessToken()).to.equal('ACCESS_TOKEN_FROM_REFRESH');
                 });
 
@@ -167,7 +167,7 @@ describe('RingCentral.platform.Platform', function() {
             platform.on(platform.events.refreshSuccess, refreshSpy);
 
             return platform.get(path).then(function(res) {
-                expect(refreshSpy).to.be.calledOnce;
+                expect(refreshSpy.calledOnce).to.be.true;
                 expect(res.json()).to.deep.equal(response);
                 expect(platform.auth().accessToken()).to.equal('ACCESS_TOKEN_FROM_REFRESH');
             });
@@ -206,7 +206,7 @@ describe('RingCentral.platform.Platform', function() {
 
             return platform.get(path, null, {handleRateLimit: 0.01}).then(function(res) {
 
-                expect(rateLimitSpy).to.be.calledOnce;
+                expect(rateLimitSpy.calledOnce).to.be.true;
 
                 var e = rateLimitSpy.getCalls()[0].args[0];
                 expect(e.message).to.equal('expected');
@@ -232,7 +232,7 @@ describe('RingCentral.platform.Platform', function() {
                 throw new Error('This should not be reached');
             }).catch(function(err) {
 
-                expect(rateLimitSpy.calledOnce).to.equal(true);
+                expect(rateLimitSpy.calledOnce).to.be.true;
 
                 var e = rateLimitSpy.getCalls()[0].args[0];
                 expect(e.message).to.equal('expected');
@@ -268,8 +268,8 @@ describe('RingCentral.platform.Platform', function() {
                 })
                 .catch(function(e) {
                     expect(e.message).to.equal('Wrong token');
-                    expect(errorSpy).to.be.calledOnce;
-                    expect(successSpy).not.to.calledOnce;
+                    expect(errorSpy.calledOnce).to.be.true;
+                    expect(successSpy.calledOnce).to.be.false;
                 });
 
         }));
@@ -520,8 +520,8 @@ describe('RingCentral.platform.Platform', function() {
                 origin: 'foo'
             }).then(function(res) {
                 expect(res.access_token).to.equal('foo');
-                expect(close).to.be.calledOnce;
-                expect(focus).to.be.calledOnce;
+                expect(close.calledOnce).to.be.true;
+                expect(focus.calledOnce).to.be.true;
             });
 
         }));

@@ -12,7 +12,7 @@ describe('RingCentral.subscription.Subscription', function() {
         });
     }
 
-    describe('subscribe', function() {
+    describe('register', function() {
 
         it('automatically renews subscription', asyncTest(function(sdk) {
 
@@ -103,11 +103,14 @@ describe('RingCentral.subscription.Subscription', function() {
 
             subscribeGeneric(expiresIn);
 
-            return createSubscription(sdk)
-                .setEventFilters(['foo', 'bar'])
-                .resubscribe()
+            var s = createSubscription(sdk)
+                .setEventFilters(['foo', 'bar']);
+
+            return s.resubscribe()
                 .then(function(res) {
                     expect(res.json().expiresIn).to.equal(expiresIn);
+                    s.reset();
+                    return s;
                 });
 
         }));
